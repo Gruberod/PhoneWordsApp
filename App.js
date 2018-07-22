@@ -1,15 +1,57 @@
-import React, {Component} from 'react';
-import {Button, Keyboard, Platform, StyleSheet, Text, TextInput, View} from 'react-native';
+import React from 'react'
+import {
+  Button,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView
+} from 'react-native'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends React.Component {
+
+  state = {
+    toTransform: '',
+    combinations: [],
+    words: []
+  }
+  
+  getAllCombinations = () => {
+    Keyboard.dismiss()
+    const mockedData = [["g", "h", "i"], ["d", "e", "f"], ["j", "k", "l"], ["j", "k", "l"], ["m", "n", "o"]]
+    console.log("I am in")
+
+    generateAllCombinations = (arr) => {
+      console.log("I am in=========================")
+      return arr.reduce((a, b) =>
+        a.map(x => b.map(y => x.concat(y)))
+        .reduce((a, b) => a.concat(b), []), [[]])
+    }
+
+    let result = generateAllCombinations(mockedData)
+    let resultsStrings = []
+
+    result.forEach((element)=>{
+    resultsStrings.push(element.join(""))
+      })
+
+    this.setState({
+          combinations: resultsStrings
+        })
+    console.log("result==================" + resultsStrings)
+  }
+
+  renderContent = () => {
+    if(this.state.combinations.length > 0) {
+      return <Text style={styles.output}>{(this.state.combinations).join(", ")}</Text>
+    }
+    else {
+      return <Text style={styles.output}>No coresponding words found</Text>
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -19,13 +61,17 @@ export default class App extends Component<Props> {
           keyboardType="phone-pad"
           textAlign={'center'}
           maxLength={8}
+          value={this.state.toTransform}
+          onChangeText={(toTransform) => this.setState({toTransform})}
         />
         <Button
           color="#8B0000"
           title="submit"
-          onPress={Keyboard.dismiss}
+          onPress={this.getAllCombinations}
         />
-        <Text style={styles.output}>The result words will be displayed here</Text>
+        <ScrollView style={styles.output}>
+          {this.renderContent()}
+        </ScrollView>
       </View>
     );
   }
@@ -36,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#262626',
+    backgroundColor: 'pink',
   },
   instuctions: {
     fontSize: 25,
@@ -54,5 +100,10 @@ const styles = StyleSheet.create({
     borderColor: '#d6d7da',
     fontSize: 18,
     margin: 20
+  },
+  output: {
+    textAlign: 'center',
+    margin: 20,
+    color: '#8B0000'
   }
 });
