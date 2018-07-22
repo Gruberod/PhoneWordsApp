@@ -8,6 +8,8 @@ import {
   View,
   ScrollView
 } from 'react-native'
+import dictionary from './data/dictionary.json'
+import keyboard from './data/keyboard.json'
 
 
 export default class App extends React.Component {
