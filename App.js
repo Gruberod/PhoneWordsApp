@@ -20,6 +20,11 @@ export default class App extends React.Component {
     words: []
   }
   
+  getCombinationsAndFilterWords = () => {
+    this.getAllCombinations()
+    this.getExistingWords()
+  }
+
   getAllCombinations = () => {
     Keyboard.dismiss()
     const mockedData = [["g", "h", "i"], ["d", "e", "f"], ["j", "k", "l"], ["j", "k", "l"], ["m", "n", "o"]]
@@ -45,9 +50,31 @@ export default class App extends React.Component {
     console.log("result==================" + resultsStrings)
   }
 
-  renderContent = () => {
+  getExistingWords = () => {
+    let listOfWords = []
+    const possibleCombinations = this.state.combinations
+    for (let i = 0; i<possibleCombinations.length; i++) {
+      if(dictionary.includes(possibleCombinations[i])) {
+        listOfWords.push(possibleCombinations[i])
+      }
+    }
+    this.setState({
+      words: listOfWords
+    })
+  }
+
+  renderCombinations = () => {
     if(this.state.combinations.length > 0) {
       return <Text style={styles.output}>{(this.state.combinations).join(", ")}</Text>
+    }
+    else {
+      return <Text style={styles.output}>No combinations</Text>
+    }
+  }
+
+  renderWords = () => {
+    if(this.state.words.length > 0) {
+      return <Text style={styles.output}>{(this.state.words).join(", ")}</Text>
     }
     else {
       return <Text style={styles.output}>No coresponding words found</Text>
@@ -69,10 +96,10 @@ export default class App extends React.Component {
         <Button
           color="#8B0000"
           title="submit"
-          onPress={this.getAllCombinations}
+          onPress={this.getCombinationsAndFilterWords}
         />
         <ScrollView style={styles.output}>
-          {this.renderContent()}
+          {this.renderWords()}
         </ScrollView>
       </View>
     );
