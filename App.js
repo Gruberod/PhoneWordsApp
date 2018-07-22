@@ -11,7 +11,6 @@ import {
 import dictionary from './data/dictionary.json'
 import keyboard from './data/keyboard.json'
 
-
 export default class App extends React.Component {
 
   state = {
@@ -26,52 +25,81 @@ export default class App extends React.Component {
   }
 
   getAllCombinations = () => {
+    // Hides the keyboard
     Keyboard.dismiss()
-    const mockedData = [["g", "h", "i"], ["d", "e", "f"], ["j", "k", "l"], ["j", "k", "l"], ["m", "n", "o"]]
-    console.log("I am in")
 
+    const input = this.state.toTransform
+
+    // Transform the numerical input into array of letters
+    let arrayOfInputs = []
+    for (let i = 0; i < input.length; i++) {
+      arrayOfInputs.push(keyboard[input[i]])
+    }
+
+    // Generate all combinations of given letters
     generateAllCombinations = (arr) => {
-      console.log("I am in=========================")
       return arr.reduce((a, b) =>
         a.map(x => b.map(y => x.concat(y)))
         .reduce((a, b) => a.concat(b), []), [[]])
     }
 
-    let result = generateAllCombinations(mockedData)
+    let result = generateAllCombinations(arrayOfInputs)
     let resultsStrings = []
 
     result.forEach((element)=>{
     resultsStrings.push(element.join(""))
       })
 
+    // Save all possible combinations into state
     this.setState({
           combinations: resultsStrings
         })
-    console.log("result==================" + resultsStrings)
   }
 
   getExistingWords = () => {
+    
+    const input = this.state.toTransform
+
+    // Filter dictionary for words of the same lenght as the input number
+    const firstFiltering = dictionary.filter(function(e) {
+      return e.length == input.length
+    })
+
+    // Compare the filteres arrays of words with the possible letter combinations
     let listOfWords = []
     const possibleCombinations = this.state.combinations
     for (let i = 0; i<possibleCombinations.length; i++) {
-      if(dictionary.includes(possibleCombinations[i])) {
+      if(firstFiltering.includes(possibleCombinations[i])) {
         listOfWords.push(possibleCombinations[i])
       }
     }
+
+    // Save found words into state
     this.setState({
       words: listOfWords
     })
   }
 
+  // Display all possible combinations
   renderCombinations = () => {
     if(this.state.combinations.length > 0) {
-      return <Text style={styles.output}>{(this.state.combinations).join(", ")}</Text>
+      return 
+      <View style={styles.output}>
+        <Button
+          color="red"
+          title="get words"
+          onPress={this.getExistingWords}
+        />
+        <ScrollView>{(this.state.combinations).join(", ")}</ScrollView>
+      </View>
     }
     else {
-      return <Text style={styles.output}>No combinations</Text>
+      return
+        <Text style={styles.output}>No combinations</Text>
     }
   }
 
+  // Display all matching words from dictionary
   renderWords = () => {
     if(this.state.words.length > 0) {
       return <Text style={styles.output}>{(this.state.words).join(", ")}</Text>
@@ -98,9 +126,10 @@ export default class App extends React.Component {
           title="submit"
           onPress={this.getCombinationsAndFilterWords}
         />
-        <ScrollView style={styles.output}>
+        <Text style={styles.output}>
           {this.renderWords()}
-        </ScrollView>
+        </Text>
+        {this.renderCombinations()}
       </View>
     );
   }
@@ -131,6 +160,7 @@ const styles = StyleSheet.create({
     margin: 20
   },
   output: {
+    fontSize: 15,
     textAlign: 'center',
     margin: 20,
     color: '#8B0000'
