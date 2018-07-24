@@ -1,58 +1,74 @@
-# Requirements
+# Dependencies
 
-## iOS
+**iOS**
 
 Latest XCode installed
 
-## Android
+**Android**
 
 Android Studio installed
 Latest Android SDK installed
 
-## NodeJS
+**NodeJS**
 
-You will need latest version of NodeJS installed. We recommend [Node Version Manager](https://github.com/creationix/nvm) for easier management of NodeJS versions:
-
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-
-or
-
-    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-
-
-After that you need to enable it (You can add this to your `.bashrc` or `.zshrc` For automatic inintialization after opening your command line):
-
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-After `nvm` is available in your command line, you can easily install and switch between NodeJS versions, examples:
-
-    nvm install 10     # installs NodeJS version 10
-    nvm use 9          # switches to NodeJS version 9
+Latest version of NodeJS installed.
 
 # Installation
 
-    git clone https://github.com/Gruberod/PhoneWordsApp.git
+Clone the repository:
+
+    $ git clone https://github.com/Gruberod/PhoneWordsApp.git
+    
+Navigate to a project folder:
+
     cd PhoneWordsApp
+    
+Install dependencies:
+
     npm install
 
-# Running
+# Running the App on iOS
+
+## Running the javascript packager
+
+Navigate to project folder and start the packager for development purposes
 
     cd PhoneWordsApp
-    npm start           # runs the javascript packager for development purposes
+    npm start
 
-## Backend
+## Running the backend
+
+Navigate to the server folder within the project and run the server
+
     cd  server
     node app.js         # backend runs on: `http://localhost:3000`
-    # for Android localhost needs to be changed for IP adress in App.js fetch call (e.g. 172.18.14.110:3000 instead of localhost:3000)
 
-# iOS
+## Building the App on simulator
 
     Open `PhoneWordsApp/ios/PhoneWordsApp.xcodeproj` in your XCode and press `Build and Run`
 
-# Android
+# Running the App on Android
+
+## Running the javascript packager
+
+Navigate to project folder and start the packager for development purposes
+
+    cd PhoneWordsApp
+    npm start
+    
+## Running the backend
+
+First in App.js, in fetch function, change "localhost" for IP adress of your computer (more info where to find IP address here http://www.howtofindmyipaddress.com/). (e.g. 172.18.14.110:3000 instead of localhost:3000) Than navigate to the server folder within the project and run the server.
+
+    cd  server
+    node app.js         # backend runs on: `http://{yourIPaddress}:3000`
+    
+## Building the App on simulator
+
+Navigate to andrid folder whithin your project. Build the app. Run the android emulator and install the app there.
 
     cd android
     ./gradlew assembleDebug
     emulator -avd Nexus_RN_API_23   # runs the android emulator
     adb install {yourProjectFolderPath}/android/app/build/outputs/apk/app-debug.apk #installs the app to emulator
+    
