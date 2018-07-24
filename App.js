@@ -92,7 +92,7 @@ export default class App extends React.Component {
         />
         <Button
           disabled={this.state.inputError != ''}
-          color="#ffffff"
+          color="#067093"
           title="SEARCH"
           onPress={this.getCombinationsAndFilterWords}
         />
