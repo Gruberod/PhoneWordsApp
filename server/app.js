@@ -1,12 +1,22 @@
-import dictionary from '../data/dictionary.json'
-import keyboard from '../data/keyboard.json'
+const dictionary = require('../data/dictionary.json')
+const keyboard = require('../data/keyboard.json')
+const express = require('express')
+const app = express()
 
-export const getAllCombinations = (inputData) => {
-    const input = inputData
+app.get('/transformation/:code', (req, res) => handleInput(req, res))
 
+const handleInput = (req, res) => {
+    const allCombinations = getAllCombinations(req.params.code)
+    const filteredWords = getExistingWords(req.params.code, allCombinations)
+    res.json({
+        combinations: allCombinations,
+        words: filteredWords})
+}
+
+const getAllCombinations = (inputData) => {
     // Transform the numerical input into array of letters
     let arrayOfInputs = []
-    for (let i = 0; i < input.length; i++) {
+    for (let i = 0; i < inputData.length; i++) {
       arrayOfInputs.push(keyboard[input[i]])
     }
 
@@ -28,12 +38,10 @@ export const getAllCombinations = (inputData) => {
     return resultsStrings
   }
 
-  export const getExistingWords = (inputData, combinationsData) => {
-    const input = inputData
-
+const getExistingWords = (inputData, combinationsData) => {
     // Filter dictionary for words of the same lenght as the input number
     const firstFiltering = dictionary.filter(function(e) {
-      return e.length == input.length
+      return e.length == inputData.length
     })
 
     // Compare the filteres arrays of words with the possible letter combinations
@@ -48,3 +56,5 @@ export const getAllCombinations = (inputData) => {
     // Return found words
     return listOfWords
   }
+
+app.listen(3000, () => console.log('Example app listening on port 3000!'))

@@ -41,6 +41,10 @@ After `nvm` is available in your command line, you can easily install and switch
     cd PhoneWordsApp
     npm start           # runs the javascript packager for development purposes
 
+## Backend
+    cd  server
+    node app.js         # backend runs on: `http://localhost:3000`
+
 # iOS
 
     Open `PhoneWordsApp/ios/PhoneWordsApp.xcodeproj` in your XCode and press `Build and Run`

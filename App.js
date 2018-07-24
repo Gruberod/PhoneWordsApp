@@ -8,10 +8,6 @@ import {
   View,
   ScrollView
 } from 'react-native'
-import {
-  getAllCombinations,
-  getExistingWords
-} from './functions/generators.js'
 import keyboard from './data/keyboard.json'
 
 export default class App extends React.Component {
@@ -23,17 +19,18 @@ export default class App extends React.Component {
     words: []
   }
   
-  getCombinationsAndFilterWords = () => {
+  getCombinationsAndFilterWords = async() => {
     // Hides the keyboard
     Keyboard.dismiss()
-
-    const resultCombinations = getAllCombinations(this.state.toTransform)
-    const resultWords = getExistingWords(this.state.toTransform, resultCombinations)
-
+    
+    // Call backend for getting data based on input
+    const result = await fetch('http://localhost:3000/transformation/' + this.state.toTransform)
+    const data = await result.json()
+    
     // Set all found combinations and words into state
     this.setState({
-      combinations: resultCombinations,
-      words: resultWords
+      combinations: data.combinations,
+      words: data.words
     })
   }
 
