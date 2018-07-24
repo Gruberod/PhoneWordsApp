@@ -71,4 +71,3 @@ Navigate to android folder whithin your project. Build the app. Run the android 
     ./gradlew assembleDebug
     emulator -avd Nexus_RN_API_23   # runs the android emulator
     adb install {yourProjectFolderPath}/android/app/build/outputs/apk/app-debug.apk #installs the app to emulator
-    
