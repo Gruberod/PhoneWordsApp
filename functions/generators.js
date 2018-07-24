@@ -24,7 +24,7 @@ export const getAllCombinations = (inputData) => {
       resultsStrings.push(element.join(""))
     })
 
-    // Save all possible combinations into state
+    // Return all possible combinations
     return resultsStrings
   }
 
@@ -45,6 +45,6 @@ export const getAllCombinations = (inputData) => {
       }
     }
 
-    // Save found words into state
+    // Return found words
     return listOfWords
   }

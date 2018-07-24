@@ -29,6 +29,8 @@ export default class App extends React.Component {
 
     const resultCombinations = getAllCombinations(this.state.toTransform)
     const resultWords = getExistingWords(this.state.toTransform, resultCombinations)
+
+    // Set all found combinations and words into state
     this.setState({
       combinations: resultCombinations,
       words: resultWords
@@ -36,9 +38,11 @@ export default class App extends React.Component {
   }
 
   validateInput = (inputValue) => {
+    // Validate input for 2-9 digits only
     const validCharacters = Object.keys(keyboard)
     for (let i = 0; i<inputValue.length; i++) {
       if (!validCharacters.includes(inputValue[i])) {
+        // Inform user if anyting else is found
         this.setState({inputError: "Please use only digits representing letters (2-9)"})
         return
       }
@@ -72,16 +76,19 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.instuctions}>Write up to 8 digits</Text>
+      <Text style={styles.header}>PHONE WORDS APP</Text>
+        <Text style={styles.instuctions}>write up to 10 digits</Text>
         <TextInput
           style={styles.input}
           keyboardType="phone-pad"
           textAlign={'center'}
-          maxLength={8}
+          maxLength={10}
           value={this.state.toTransform}
           onChangeText={(toTransform) => this.validateInput(toTransform)}
         />
-        <Text style={styles.output}>{this.state.inputError}</Text>
+        <Text style={styles.output}>
+          {this.state.inputError}
+        </Text>
         <Button
           disabled={this.state.inputError != ''}
           color="#8B0000"
@@ -102,10 +109,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'pink',
+    backgroundColor: 'pink'
+  },
+  header: {
+    fontSize: 40,
+    textAlign: 'center',
+    margin: 20,
+    color: '#8B0000'
   },
   instuctions: {
-    fontSize: 25,
+    fontSize: 30,
     textAlign: 'center',
     margin: 20,
     color: '#8B0000'
