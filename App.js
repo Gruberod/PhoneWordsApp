@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Button,
+  FlatList,
   Keyboard,
   StyleSheet,
   Text,
@@ -53,7 +54,13 @@ export default class App extends React.Component {
   // Display all possible combinations
   renderCombinations = () => {
     if(this.state.combinations.length > 0) {
-      return <Text style={styles.output}>{(this.state.combinations).join(", ")}</Text>
+      return <FlatList
+      keyExtractor={(item) => item}
+      data={this.state.combinations}
+      renderItem={({item}) => {
+        return <Text key={item} style={styles.combinations}>{item}</Text>
+      }}
+    />
     }
     else {
       return <Text style={styles.output}>No combinations</Text>
@@ -74,12 +81,12 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
       <Text style={styles.header}>PHONE WORDS APP</Text>
-        <Text style={styles.instuctions}>write up to 6 digits</Text>
+        <Text style={styles.instuctions}>write up to 8 digits</Text>
         <TextInput
           style={styles.input}
           keyboardType="phone-pad"
           textAlign={'center'}
-          maxLength={6}
+          maxLength={8}
           value={this.state.toTransform}
           onChangeText={(toTransform) => this.validateInput(toTransform)}
         />
@@ -138,6 +145,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     margin: 20,
+    color: '#2f353b'
+  },
+  combinations: {
+    flex: 1,
+    fontSize: 15,
+    textAlign: 'center',
+    margin: 1,
     color: '#2f353b'
   }
 });
