@@ -44,6 +44,7 @@ After `nvm` is available in your command line, you can easily install and switch
 ## Backend
     cd  server
     node app.js         # backend runs on: `http://localhost:3000`
+    # for Android localhost needs to be changed for IP adress in App.js fetch call (e.g. 172.18.14.110:3000 instead of localhost:3000)
 
 # iOS
 

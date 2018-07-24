@@ -26,7 +26,7 @@ export default class App extends React.Component {
     // Call backend for getting data based on input
     const result = await fetch('http://localhost:3000/transformation/' + this.state.toTransform)
     const data = await result.json()
-    
+
     // Set all found combinations and words into state
     this.setState({
       combinations: data.combinations,
@@ -74,24 +74,24 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
       <Text style={styles.header}>PHONE WORDS APP</Text>
-        <Text style={styles.instuctions}>write up to 10 digits</Text>
+        <Text style={styles.instuctions}>write up to 6 digits</Text>
         <TextInput
           style={styles.input}
           keyboardType="phone-pad"
           textAlign={'center'}
-          maxLength={10}
+          maxLength={6}
           value={this.state.toTransform}
           onChangeText={(toTransform) => this.validateInput(toTransform)}
+        />
+        <Button
+          disabled={this.state.inputError != ''}
+          color="#ffffff"
+          title="SEARCH"
+          onPress={this.getCombinationsAndFilterWords}
         />
         <Text style={styles.output}>
           {this.state.inputError}
         </Text>
-        <Button
-          disabled={this.state.inputError != ''}
-          color="#8B0000"
-          title="submit"
-          onPress={this.getCombinationsAndFilterWords}
-        />
         <ScrollView>
           {this.renderWords()}
           {this.renderCombinations()}
@@ -106,19 +106,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'pink'
+    backgroundColor: '#21cbb4'
   },
   header: {
-    fontSize: 40,
+    fontSize: 30,
+    fontFamily: "Roboto",
+    fontWeight: 'bold',
     textAlign: 'center',
     margin: 20,
-    color: '#8B0000'
+    color: '#2f353b'
   },
   instuctions: {
-    fontSize: 30,
+    fontSize: 20,
     textAlign: 'center',
     margin: 20,
-    color: '#8B0000'
+    color: '#2f353b'
   },
   input: {
     width: 200,
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 0.5,
+    borderColor: '#067093',
     backgroundColor: '#e0e0e0',
     borderColor: '#d6d7da',
     fontSize: 18,
@@ -135,6 +138,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     margin: 20,
-    color: '#8B0000'
+    color: '#2f353b'
   }
 });

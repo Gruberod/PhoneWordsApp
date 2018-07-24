@@ -17,7 +17,7 @@ const getAllCombinations = (inputData) => {
     // Transform the numerical input into array of letters
     let arrayOfInputs = []
     for (let i = 0; i < inputData.length; i++) {
-      arrayOfInputs.push(keyboard[input[i]])
+      arrayOfInputs.push(keyboard[inputData[i]])
     }
 
     // Generate all combinations of given letters
